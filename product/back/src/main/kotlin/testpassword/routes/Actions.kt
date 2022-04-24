@@ -10,8 +10,7 @@ import testpassword.models.OUTPUT_MODE
 import testpassword.models.TestParams
 import testpassword.models.TestResult
 import testpassword.services.*
-
-// TODO: установить время блокировки (хранения записи в redis), периодически продлевать его, если операция ещё идёт
+import java.io.File
 
 fun Route.actions() =
     route("/bench/") {
@@ -21,36 +20,35 @@ fun Route.actions() =
             call.respond(DBsLock.executeLocking(creds.first) {
                 DBsSupport(creds).let { sup ->
                     sup.checkDbAvailability()
-                    val tester = DBsTester(testParams.queries, sup)
-                    val benchmarkingResult = tester.benchmarkQuery()
-                    val best = tester.findBest(benchmarkingResult)
-                    //TODO: create not only for first
-                    val origTime = sup.measureQuery { testParams.queries.first() }
-                    if (testParams.saveBetter && best != null) sup.execute { best.first.createIndexStatement }
-                    val report = Report(benchmarkingResult.map {
-                        object {
-                            val indexStatement = it.key.createIndexStatement
-                            val timeTaken = it.value
-                            val diff = origTime - it.value
-                        }
-                    })
-                    val res = TestResult(best!!.first.createIndexStatement, origTime, best.second, best.second - origTime)
+                    val results = testParams.queries.map {
+                        val tester = DBsTester(it, sup)
+                        val benchmarkingResult = tester.benchmarkQuery()
+                        val best = tester.findBest(benchmarkingResult)
+                        val origTime = sup.measureQuery { it }
+                        if (testParams.saveBetter && best != null) sup.execute { best.first.createIndexStatement }
+                        val report = Report(benchmarkingResult.map {
+                            object {
+                                val indexStatement = it.key.createIndexStatement
+                                val timeTaken = it.value
+                                val diff = origTime - it.value
+                            }
+                        })
+                        val res = TestResult(best!!.first.createIndexStatement, origTime, best.second, best.second - origTime)
+                        report to res
+                    }
+                    val temporaryWrite = { act: (f: Array<File>) -> Unit ->
+                        val files = results.map { it.first.file }.toTypedArray()
+                        act(files)
+                        files.forEach { it.delete() }
+                        results.map { it.second }
+                    }
                     when (testParams.outputMode) {
-                        OUTPUT_MODE.HTTP -> report.reportData
-                        OUTPUT_MODE.SMB -> {
-                            SMB(testParams.outputParams, report.file)
-                            report.file.delete()
-                            arrayOf(res)
-                        }
-                        OUTPUT_MODE.EMAIL -> {
-                            Postman(testParams.outputParams, "You're DB successfully autoindexed", report.file)
-                            report.file.delete()
-                            arrayOf(res)
-
-                        }
+                        OUTPUT_MODE.HTTP -> results.map { it.first.reportData }
+                        OUTPUT_MODE.SMB -> temporaryWrite { SMB(testParams.outputParams, *it) }
+                        OUTPUT_MODE.EMAIL -> temporaryWrite { Postman(testParams.outputParams, "You're DB successfully autoindexed", *it) }
                         OUTPUT_MODE.FS -> {
-                            report.file
-                            arrayOf(res)
+                            results.forEach { it.first.file }
+                            "Reports write to default directory"
                         }
                     }
                 }

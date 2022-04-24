@@ -28,10 +28,10 @@ object Postman {
             }
         }
 
-    operator fun invoke(to: String, subject: String, content: File) =
+    operator fun invoke(to: String, subject: String, vararg contents: File) =
         sender.apply {
             setSubject(subject)
-            setContent(MimeMultipart().apply { addBodyPart(MimeBodyPart().apply { attachFile(content) }) })
+            setContent(MimeMultipart().apply { addBodyPart(MimeBodyPart().apply { contents.forEach { attachFile(it) } }) })
             addTo(to)
         }.send()
 

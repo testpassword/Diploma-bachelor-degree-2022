@@ -11,13 +11,13 @@ object SMB {
         return "DefaultEndpointsProtocol=https;AccountName=${name};AccountKey=${key}"
     }
 
-    operator fun invoke(creds: String, product: File, productName: String = product.name) =
+    operator fun invoke(creds: String, vararg product: File) =
         CloudStorageAccount
             .parse(parseCreds(creds))
             .createCloudFileClient()
             .getShareReference("optreports")
             .also { it.createIfNotExists() }
-            .rootDirectoryReference
-            .getFileReference(productName)
-            .uploadFromFile(product.absolutePath)
+            .rootDirectoryReference.also {
+                product.forEach { p -> it.getFileReference(p.name).uploadFromFile(p.absolutePath) }
+            }
 }
