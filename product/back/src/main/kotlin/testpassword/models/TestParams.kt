@@ -1,7 +1,7 @@
 package testpassword.models
 
 import kotlinx.serialization.Serializable
-import testpassword.services.CONSUMERS
+import testpassword.services.CONSUMER
 import testpassword.services.DBsSupport
 import testpassword.services.JDBC_Creds
 import testpassword.services.Report
@@ -9,7 +9,7 @@ import testpassword.services.Report
 @Serializable data class TestParams(
     val connectionUrl: String,
     val queries: Set<String> = emptySet(),
-    val consumer: CONSUMERS = CONSUMERS.FS,
+    val consumer: CONSUMER = CONSUMER.FS,
     val format: Report.FORMATS = Report.FORMATS.CSV,
     val consumerParams: String = "",
     val saveBetter: Boolean = false,

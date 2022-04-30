@@ -4,7 +4,6 @@ import io.ktor.application.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import testpassword.models.CONSUMERS
 import testpassword.models.IndexResult
 import testpassword.models.TestParams
 import testpassword.models.TestResult
@@ -35,7 +34,7 @@ fun Route.actions() =
                         files.forEach { it.delete() }
                         results.map { it.second }
                     }
-                    if (testParams.consumer == CONSUMERS.FS) {
+                    if (testParams.consumer == CONSUMER.FS) {
                         results.forEach { it.first.file }
                         "Reports write to default directory"
                     } else temporaryWrite { testParams.consumer(testParams.consumerParams, *it) }

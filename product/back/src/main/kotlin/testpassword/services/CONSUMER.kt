@@ -12,19 +12,8 @@ import javax.mail.internet.MimeMultipart
 import kotlin.io.path.Path
 import kotlin.io.path.absolutePathString
 
-enum class CONSUMERS {
+enum class CONSUMER {
     EMAIL {
-        private val MSG = "You're DB successfully autoindexed"
-
-        private val sender: SimpleEmail =
-            SimpleEmail().apply {
-                val creds = parseCreds()
-                hostName = creds.server.host
-                setSmtpPort(creds.server.port)
-                setAuthentication(creds.address, creds.pass)
-                isSSLOnConnect = true
-                setFrom(creds.address)
-            }
 
         private fun parseCreds() =
             System.getenv("EMAIL_SENDER").split(";").let {
@@ -36,8 +25,15 @@ enum class CONSUMERS {
             }
 
         override operator fun invoke(creds: String, vararg contents: File) {
-            sender.apply {
-                subject = MSG
+            SimpleEmail().apply {
+                val creds = parseCreds()
+                hostName = creds.server.host
+                setSmtpPort(creds.server.port)
+                setAuthentication(creds.address, creds.pass)
+                isSSLOnConnect = true
+                setFrom(creds.address)
+            }.apply {
+                subject = "You're DB successfully autoindexed"
                 setContent(MimeMultipart().apply { addBodyPart(MimeBodyPart().apply { contents.forEach { attachFile(it) } }) })
                 addTo(creds)
             }.send()
