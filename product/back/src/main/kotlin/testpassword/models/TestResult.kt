@@ -8,3 +8,15 @@ import kotlinx.serialization.Serializable
     val timeAfter: Long,
     val diff: Long
 )
+
+@Serializable class IndexResult {
+
+    val indexStatement: String
+    val timeTaken: Long
+    val diff: Long
+    constructor(index: String, origTime: Long, time: Long) {
+        this.indexStatement = index
+        this.timeTaken = time
+        this.diff = origTime - time
+    }
+}

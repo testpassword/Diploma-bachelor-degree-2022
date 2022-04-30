@@ -33,21 +33,21 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: io.ktor:ktor-server-core:1.6.5" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31" level="project" />
+    <orderEntry type="library" name="Maven: io.ktor:ktor-server-sessions:1.6.5" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.5.31" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:13.0" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.32" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.5.2-native-mt" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.2-native-mt" level="project" />
+    <orderEntry type="library" name="Maven: io.ktor:ktor-server-core:1.6.5" level="project" />
     <orderEntry type="library" name="Maven: io.ktor:ktor-utils-jvm:1.6.5" level="project" />
     <orderEntry type="library" name="Maven: io.ktor:ktor-io-jvm:1.6.5" level="project" />
     <orderEntry type="library" name="Maven: io.ktor:ktor-http-jvm:1.6.5" level="project" />
     <orderEntry type="library" name="Maven: com.typesafe:config:1.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-reflect:1.5.31" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.fusesource.jansi:jansi:2.4.0" level="project" />
-    <orderEntry type="library" name="Maven: io.ktor:ktor-server-sessions:1.6.5" level="project" />
     <orderEntry type="library" name="Maven: io.ktor:ktor-server-host-common:1.6.5" level="project" />
     <orderEntry type="library" name="Maven: io.ktor:ktor-http-cio-jvm:1.6.5" level="project" />
     <orderEntry type="library" name="Maven: io.ktor:ktor-network-jvm:1.6.5" level="project" />
@@ -116,6 +116,7 @@
     <orderEntry type="library" name="Maven: org.apache.commons:commons-email:1.5" level="project" />
     <orderEntry type="library" name="Maven: com.sun.mail:javax.mail:1.5.6" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
+    <orderEntry type="library" name="Maven: com.jcraft:jsch:0.1.55" level="project" />
     <orderEntry type="library" name="Maven: com.azure:azure-storage-file-share:12.11.2" level="project" />
     <orderEntry type="library" name="Maven: com.azure:azure-core:1.22.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.12.5" level="project" />
@@ -142,5 +143,11 @@
     <orderEntry type="library" name="Maven: io.projectreactor.netty:reactor-netty-core:1.0.11" level="project" />
     <orderEntry type="library" name="Maven: com.azure:azure-storage-common:12.14.1" level="project" />
     <orderEntry type="library" name="Maven: com.github.jsqlparser:jsqlparser:4.2" level="project" />
+    <orderEntry type="library" name="Maven: io.ktor:ktor-server-status-pages:2.0.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.jetbrains.kotlinx:atomicfu:0.17.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.jetbrains.kotlinx:atomicfu-jvm:0.17.1" level="project" />
+    <orderEntry type="library" name="Maven: io.ktor:ktor-server-cors:2.0.0" level="project" />
+    <orderEntry type="library" name="Maven: io.ktor:ktor-server-content-negotiation:2.0.0" level="project" />
   </component>
 </module>

@@ -1,16 +1,17 @@
 package testpassword.models
 
 import kotlinx.serialization.Serializable
+import testpassword.services.CONSUMERS
 import testpassword.services.DBsSupport
 import testpassword.services.JDBC_Creds
-
-enum class OUTPUT_MODE { EMAIL, HTTP, SMB, FS }
+import testpassword.services.Report
 
 @Serializable data class TestParams(
     val connectionUrl: String,
     val queries: Set<String> = emptySet(),
-    val outputMode: OUTPUT_MODE = OUTPUT_MODE.HTTP,
-    val outputParams: String = "",
+    val consumer: CONSUMERS = CONSUMERS.FS,
+    val format: Report.FORMATS = Report.FORMATS.CSV,
+    val consumerParams: String = "",
     val saveBetter: Boolean = false,
 ) {
 

@@ -4,9 +4,8 @@ import io.ktor.application.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import testpassword.consumers.Postman
-import testpassword.consumers.SMB
-import testpassword.models.OUTPUT_MODE
+import testpassword.models.CONSUMERS
+import testpassword.models.IndexResult
 import testpassword.models.TestParams
 import testpassword.models.TestResult
 import testpassword.services.*
@@ -26,13 +25,7 @@ fun Route.actions() =
                         val best = tester.findBest(benchmarkingResult)
                         val origTime = sup.measureQuery { it }
                         if (testParams.saveBetter && best != null) sup.execute { best.first.createIndexStatement }
-                        val report = Report(benchmarkingResult.map {
-                            object {
-                                val indexStatement = it.key.createIndexStatement
-                                val timeTaken = it.value
-                                val diff = origTime - it.value
-                            }
-                        })
+                        val report = Report(it, benchmarkingResult.map { (k, v) -> IndexResult(k.createIndexStatement, origTime, v) }, testParams.format)
                         val res = TestResult(best!!.first.createIndexStatement, origTime, best.second, best.second - origTime)
                         report to res
                     }
@@ -42,15 +35,10 @@ fun Route.actions() =
                         files.forEach { it.delete() }
                         results.map { it.second }
                     }
-                    when (testParams.outputMode) {
-                        OUTPUT_MODE.HTTP -> results.map { it.first.reportData }
-                        OUTPUT_MODE.SMB -> temporaryWrite { SMB(testParams.outputParams, *it) }
-                        OUTPUT_MODE.EMAIL -> temporaryWrite { Postman(testParams.outputParams, "You're DB successfully autoindexed", *it) }
-                        OUTPUT_MODE.FS -> {
-                            results.forEach { it.first.file }
-                            "Reports write to default directory"
-                        }
-                    }
+                    if (testParams.consumer == CONSUMERS.FS) {
+                        results.forEach { it.first.file }
+                        "Reports write to default directory"
+                    } else temporaryWrite { testParams.consumer(testParams.consumerParams, *it) }
                 }
             })
         }
