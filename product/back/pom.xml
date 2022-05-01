@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>testpassword</groupId>
     <artifactId>back</artifactId>
-    <version>0.0.1</version>
+    <version>0.1.0</version>
     <name>back</name>
     <description>back</description>
     <properties>
         <ktor_version>1.6.5</ktor_version>
         <kotlin.code.style>official</kotlin.code.style>
-        <kotlin_version>1.5.31</kotlin_version>
-        <logback_version>1.2.3</logback_version>
+        <kotlin_version>1.6.21</kotlin_version>
+        <logback_version>1.2.11</logback_version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <main.class>testpassword.AppKt</main.class>
@@ -106,7 +106,7 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>4.2.2</version>
+            <version>3.8.0</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
