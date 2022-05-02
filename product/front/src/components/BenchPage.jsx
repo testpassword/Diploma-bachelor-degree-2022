@@ -1,35 +1,37 @@
 import React, {useEffect, useState} from 'react'
 import Credits from './Credits'
-import {Form, Input, Button, Card, Image, Layout, Modal, Radio, Select, message} from 'antd'
+import {Form, Input, Button, Card, Image, Layout, Modal, Radio, Select, message, Result} from 'antd'
 import API from '../api.js'
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons"
+import CodeMirror from "@uiw/react-codemirror"
+import {sql} from "@codemirror/lang-sql"
 
 export default () => {
 
   const formItemLayout = {
     labelCol: {
-      xs: {span: 24},
-      sm: {span: 4},
-    },
-    wrapperCol: {
-      xs: {span: 24},
-      sm: {span: 20},
-    },
+      sm: {
+        span: 4
+      }
+    }
   }
   const formItemLayoutWithOutLabel = {
     wrapperCol: {
-      xs: {span: 24, offset: 0},
-      sm: {span: 20, offset: 4},
-    },
-  };
-  const {getConsumers, getFormats, getInstances, bench} = API
+      sm: {
+        span: 20,
+        offset: 4
+      }
+    }
+  }
   const [consumers, setConsumers] = useState([])
   const [formats, setFormats] = useState([])
   const [instances, setInstances] = useState([])
+  const [status, setStatus] = useState('')
+  const [resSubtitle, setResSubtitle] = useState('')
   useEffect(() => {
-    getConsumers().then(setConsumers)
-    getFormats().then(setFormats)
-    getInstances().then(setInstances)
+    API.getConsumers().then(setConsumers)
+    API.getFormats().then(setFormats)
+    API.getInstances().then(setInstances)
   }, [])
   const toRadioGroup = vals =>
     <Radio.Group>
@@ -37,28 +39,31 @@ export default () => {
     </Radio.Group>
 
   return <Layout style={{minHeight: '100vh'}}>
-    <Layout.Header>
+    <Layout.Header style={{height: '5rem'}}>
       <Image
-        width={200}
+        width={250}
         src="https://itmo.ru/file/stat/482/slogans03.png"
       />
-      Автоматизация индексирования базы данных на основе истории запросов
+      <span style={{fontSize: '1.1rem'}}>Автоматизация индексирования базы данных на основе истории запросов</span>
     </Layout.Header>
-    <Layout.Content style={{margin: 50}}>
+    <Layout.Content style={{margin: 60}}>
       <Card>
-        <Form onFinish={val => {
-          const hide = message.loading('Action in progress...', 0)
-          const connectionUrl = `jdbc:${val.instance}://${val.url}/${val.logicalName};${val.username};${val.password}`
-          bench({connectionUrl, ...val})
-            .then(it => {
-              hide()
-              message.success(it.details)
-            })
-            .catch(it => {
-              hide()
-              it.json().then(j => message.error(j.details, 5))
-            })
-        }}>
+        <Form labelCol={{ span: 3}}
+          onFinish={val => {
+            const hide = message.loading('Action in progress...', 0)
+            const connectionUrl = `jdbc:${val.instance}://${val.url}/${val.logicalName};${val.username};${val.password}`
+            API.bench({connectionUrl, ...val})
+              .then(it => {
+                hide()
+                setStatus('success')
+                setResSubtitle(it.details)
+              })
+              .catch(it => {
+                hide()
+                setStatus('error')
+                it.json().then(j => setResSubtitle(j.details))
+              })
+          }}>
           <Form.Item label="Database connection">
             <Input.Group compact>
               <Form.Item
@@ -137,9 +142,10 @@ export default () => {
                       ]}
                       noStyle
                     >
-
-                      <Input placeholder="queue" style={{width: '95%'}}/>
-
+                      <CodeMirror
+                        theme="dark"
+                        extensions={[sql()]}
+                      />
                     </Form.Item>
                     {queries.length > 1 ? (
                       <MinusCircleOutlined
@@ -177,6 +183,7 @@ export default () => {
               Submit
             </Button>
           </Form.Item>
+          { status && <Result status={status} subTitle={resSubtitle}/> }
         </Form>
       </Card>
     </Layout.Content>

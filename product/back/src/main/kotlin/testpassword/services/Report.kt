@@ -1,6 +1,5 @@
 package testpassword.services
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import testpassword.models.IndexResult
@@ -36,20 +35,20 @@ data class Report(
                 }
         },
 
-        JSON { override fun serialize(objects: Iterable<IndexResult>): String = Json.encodeToString(objects.toList()) },
-
-        XML { override fun serialize(objects: Iterable<IndexResult>): String = XmlMapper().writeValueAsString(objects) };
+        JSON { override fun serialize(objects: Iterable<IndexResult>): String = Json.encodeToString(objects.toList()) };
 
         abstract fun serialize(objects: Iterable<IndexResult>): String
     }
 
-    private val reportsDir: String =
-        System.getenv("REPORTS_STORAGE") ?: "./"
+    var reportsDir: String = "./"
 
     private val name: String =
-        "${reportsDir}/${origQuery}_${
+        "${reportsDir}/${ 
+            if (origQuery.length <= 20) origQuery 
+            else (origQuery.substring(0, 9) + origQuery.substring(origQuery.length - 10, origQuery.length - 1)) 
+        }_${
             DateTimeFormatter
-                .ofPattern("yyyy-MM-dd_HH-mm-ss")
+                .ofPattern("ddMMyyyyHHmmss")
                 .withZone(ZoneOffset.UTC)
                 .format(Instant.now())}.${format}"
 

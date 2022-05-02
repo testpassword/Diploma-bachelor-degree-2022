@@ -18,8 +18,12 @@ class DBsSupport(val creds: JDBC_Creds) {
         val CONNECTION_URL_PATTERN = Regex("jdbc:.*://.*;.*;.*")
     }
 
-    val creator: DB_INDEX_CREATOR =
-        DB_INDEX_CREATOR.valueOf(creds.first.split(":")[1])
+    val creator: INDEX_CREATORS =
+        try {
+            INDEX_CREATORS.valueOf(creds.first.split(":")[1])
+        } catch (e: IllegalArgumentException) {
+            throw DatabaseNotSupportedException()
+        }
 
     fun checkDbAvailability() {
         if (this.isDbSupported().not()) throw DatabaseNotSupportedException()
@@ -53,7 +57,7 @@ class DBsSupport(val creds: JDBC_Creds) {
     fun getTableColumns(tableName: String): Set<String> =
         getConnection()
             .createStatement()
-            .executeQuery("SELECT * FROM $tableName;" )
+            .executeQuery("SELECT * FROM $tableName;")
             .metaData.let { md ->
                 generateSequence(1) { i -> i + 1 }
                     .take(md.columnCount)

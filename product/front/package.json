@@ -4,11 +4,11 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.3.0",
+    "@codemirror/lang-sql": "^0.20.0",
+    "@uiw/react-codemirror": "^4.7.0",
     "antd": "^4.8.4",
-    "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0"
   },
   "scripts": {

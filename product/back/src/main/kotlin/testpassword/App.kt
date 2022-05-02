@@ -9,7 +9,7 @@ import io.ktor.serialization.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import kotlinx.serialization.json.Json
-import testpassword.routes.actions
+import testpassword.routes.*
 import testpassword.services.*
 import java.rmi.ConnectException
 import java.sql.SQLClientInfoException
@@ -27,12 +27,16 @@ fun Application.configureModules() =
 fun Application.configureSecurity() =
     install(CORS) {
         methods.addAll(HttpMethod.DefaultMethods)
+        allowHeaders { true }
+        allowNonSimpleContentTypes = true
+        allowSameOrigin = true
         anyHost()
     }
 
 fun Application.configureRouting() =
     routing {
         actions()
+        support()
     }
 
 fun Application.configureExceptionHandlers() =
@@ -40,8 +44,7 @@ fun Application.configureExceptionHandlers() =
         exception<Exception> {
             val (status, msg) = when (it) {
                 is DatabaseNotSupportedException -> HttpStatusCode.BadRequest to """
-                    This database not supported yet.
-                    Supported: ${DB_INDEX_CREATOR.values().joinToString(", ")}
+                    This database not supported yet. Supported: ${INDEX_CREATORS.values().joinToString(", ")}
                     """.trimIndent()
                 is SQLClientInfoException -> HttpStatusCode.NotFound to """
                     Provided connectionUrl doesn't not match pattern: '${DBsSupport.CONNECTION_URL_PATTERN}'
@@ -55,13 +58,10 @@ fun Application.configureExceptionHandlers() =
                 """.trimIndent()
                 else -> {
                     it.printStackTrace()
-                    HttpStatusCode.InternalServerError to """
-                        Something goes wrong, connect to support with:
-                        ${it.stackTraceToString()}
-                    """.trimIndent()
+                    HttpStatusCode.InternalServerError to it.localizedMessage
                 }
             }
-            call.respond(status, msg)
+            call.respond(status, mapOf("details" to msg))
         }
     }
 
