@@ -2,9 +2,9 @@ package testpassword.services
 
 import testpassword.models.IndexQueryStatement
 
-enum class DB_INDEX_CREATOR(val indexTypes: Set<String>) {
+enum class DB_INDEX_CREATORS(val prefix: String, val indexTypes: Set<String>) {
 
-    sqlserver(setOf("CLUSTERED", "NONCLUSTERED")) {
+    sqlserver("sqlserver", setOf("CLUSTERED", "NONCLUSTERED")) {
         override fun buildDBSpecificIndexQueries(indexQuery: IndexQueryStatement): List<IndexQueryStatement> {
             val (beginning, end) = indexQuery.createIndexStatement.split(" ", limit = 2, ignoreCase = true)
             if (arrayOf(beginning to "CREATE", end to "INDEX").all { it.first.startsWith(it.second, ignoreCase = true) })
@@ -19,7 +19,7 @@ enum class DB_INDEX_CREATOR(val indexTypes: Set<String>) {
         }
     },
 
-    postgresql(setOf("HASH", "BTREE")) {
+    postgresql("psql", setOf("HASH", "BTREE")) {
         override fun buildDBSpecificIndexQueries(indexQuery: IndexQueryStatement): List<IndexQueryStatement> {
             val (beginning, end) = indexQuery.createIndexStatement.split(" (", limit = 2, ignoreCase = true)
             if (beginning.endsWith(indexQuery.table))

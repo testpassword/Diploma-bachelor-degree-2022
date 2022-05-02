@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import "./index.css"
-import ManagementConsole from "./components/ManagementConsole"
+import ManagementConsole from "./components/BenchPage"
 
 ReactDOM.render(
   <React.StrictMode>

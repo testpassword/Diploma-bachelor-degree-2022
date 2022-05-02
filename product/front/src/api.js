@@ -1,15 +1,45 @@
-export default {
-  CONSUMER: ['EMAIL', 'SMB', 'SFTP', 'FS'],
-  FORMAT: ['CSV', 'JSON', 'XML'],
+// todo: split to modules
 
-  bench: (
-    connectionUrl, queries = [],
-    consumer = 'FS',
-    format = 'CSV',
-    consumerParams = '',
-    saveBetter = false,
-  ) => fetch(
-    `${process.env.BACK_URL}/bench/`,
+const ROOT = process.env.REACT_APP_BACK_URL
+const ACTIONS = `${ROOT}/bench/`
+const SUPPORT = `${ROOT}/support/`
+
+const toJson = res => res.ok ? res.json() : Promise.reject(res)
+
+export default {
+
+  getInstances: () => fetch(
+    `${SUPPORT}instances/`,
+    {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    }
+  ).then(toJson),
+
+  getConsumers: () => fetch(
+    `${SUPPORT}consumers/`,
+    {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    }).then(toJson),
+
+  getFormats: () => fetch(
+    `${SUPPORT}formats/`,
+    {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    }
+  ).then(toJson),
+
+  bench: ({
+            connectionUrl,
+            queries = [],
+            consumer = 'FS',
+            format = 'CSV',
+            consumerParams = '',
+            saveBetter = false,
+          }) => fetch(
+    ACTIONS,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -22,5 +52,5 @@ export default {
         saveBetter
       })
     }
-  )
+  ).then(toJson)
 }
