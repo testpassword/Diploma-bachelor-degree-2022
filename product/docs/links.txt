@@ -1,5 +1,0 @@
-https://vaadin.com/learn/tutorials/cloud-deployment/azure
-https://docs.microsoft.com/ru-ru/azure/azure-cache-for-redis/cache-java-get-started
-https://docs.microsoft.com/ru-ru/azure/storage/files/storage-how-to-use-files-mac
-https://docs.microsoft.com/ru-ru/azure/storage/files/storage-java-how-to-use-file-storage?tabs=java8
-https://www.freecodecamp.org/news/my-favorite-examples-of-functional-programming-in-kotlin-e69217b39112/

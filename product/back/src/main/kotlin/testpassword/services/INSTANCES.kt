@@ -2,7 +2,7 @@ package testpassword.services
 
 import testpassword.models.IndexQueryStatement
 
-enum class INDEX_CREATORS(val indexTypes: Set<String>) {
+enum class INSTANCES(val indexTypes: Set<String>) {
 
     sqlserver(setOf("CLUSTERED", "NONCLUSTERED")) {
         override fun buildDBSpecificIndexQueries(indexQuery: IndexQueryStatement): List<IndexQueryStatement> {

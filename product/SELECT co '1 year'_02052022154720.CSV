@@ -1,6 +1,0 @@
-indexStatement,timeTaken,diff
-CREATE INDEX End_date_and_timeMissionHASH ON mission USING HASH(end_date_and_time);,2,-1
-CREATE INDEX End_date_and_timeMissionBTREE ON mission USING BTREE(end_date_and_time);,1,0
-CREATE INDEX Start_date_and_timeMissionHASH ON mission USING HASH(start_date_and_time);,2,-1
-CREATE INDEX Start_date_and_timeMissionBTREE ON mission USING BTREE(start_date_and_time);,1,0
-CREATE INDEX End_date_and_timeStart_date_and_timeMissionBTREE ON mission USING BTREE(end_date_and_time, start_date_and_time);,2,-1

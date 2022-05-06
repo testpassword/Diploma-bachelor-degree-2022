@@ -4,7 +4,7 @@ import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import testpassword.services.CONSUMER
-import testpassword.services.INDEX_CREATORS
+import testpassword.services.INSTANCES
 import testpassword.services.Report
 
 fun Route.support() =
@@ -23,7 +23,7 @@ fun Route.support() =
 
         route("instances/") {
             get {
-                call.respond(INDEX_CREATORS.values())
+                call.respond(INSTANCES.values())
             }
         }
     }

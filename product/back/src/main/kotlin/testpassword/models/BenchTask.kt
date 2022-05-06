@@ -6,7 +6,7 @@ import testpassword.services.DBsSupport
 import testpassword.services.JDBC_Creds
 import testpassword.services.Report
 
-@Serializable data class TestParams(
+@Serializable data class BenchTask(
     val connectionUrl: String,
     val queries: Set<String> = emptySet(),
     val consumer: CONSUMER = CONSUMER.FS,

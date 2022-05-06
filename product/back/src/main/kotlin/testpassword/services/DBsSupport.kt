@@ -18,9 +18,9 @@ class DBsSupport(val creds: JDBC_Creds) {
         val CONNECTION_URL_PATTERN = Regex("jdbc:.*://.*;.*;.*")
     }
 
-    val creator: INDEX_CREATORS =
+    val creator: INSTANCES =
         try {
-            INDEX_CREATORS.valueOf(creds.first.split(":")[1])
+            INSTANCES.valueOf(creds.first.split(":")[1])
         } catch (e: IllegalArgumentException) {
             throw DatabaseNotSupportedException()
         }

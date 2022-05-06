@@ -1,12 +1,34 @@
 openapi: 3.0.3
 info:
   title: SQL-OPTIMIZER
-  version: 1.0.0
-servers:
-  - url: https://sql-optimizer.azurewebsites.net/
+  description: Service for SQL-compatible databases optimisations using requests history.
+  version: 1.1.0
 components:
   schemas:
-    TestParams:
+    FORMATS:
+      type: string
+      enum:
+        - CSV
+        - JSON
+    CONSUMERS:
+      type: string
+      enum:
+        - EMAIL
+        - SMB
+        - SFTP
+        - FS
+    INSTANCES:
+      type: string
+      enum:
+        - POSTGRESQL
+        - SQLSERVER
+    CommonMessage:
+      type: object
+      properties:
+        details:
+          type: string
+          required: true
+    BenchTask:
       type: object
       properties:
         connectionUrl:
@@ -14,71 +36,79 @@ components:
           required: true
         queries:
           type: array
-          required: true
           items:
             type: string
-        outputMode:
+          required: true
+        consumer:
           type: string
-          nullable: true
-          enum:
-            - HTTP
-            - EMAIL
-            - SMB
+          required: false
+          default: FS
+        format:
+          type: string
+          required: false
+          default: CSV
+        consumerParams:
+          type: string
+          required: false
+          default: ''
         saveBetter:
           type: boolean
           required: false
           default: false
-        outputParams:
-          type: string
-          required: false
-          default: ""
-    TestResult:
-      type: object
-      properties:
-        bestIndex:
-          type: string
-          required: true
-        timeBefore:
-          type: number
-          required: true
-        timeAfter:
-          type: number
-          required: true
-        diff:
-          type: number
-          format: double
-          required: true
 paths:
-  /actions/:
+  /bench:
+    summary: Test and autoindex database
     post:
-      summary: Tests SQL-queries for speed with all possible indexes and returns a report.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TestParams'
+              $ref: 'components/schemas/BenchTask'
       responses:
         200:
-          description: Returns result of autoindexing.
+          description: Info about test request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TestResult'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/TestResult'
+                $ref: 'components/schemas/CommonMessage'
         400:
-          description: Bad request.
-          content:
-            text/plain:
-              schema:
-                type: string
-        409:
-          description: Database is busy.
-          content:
-            text/plain:
-              schema:
-                type: string
+          description: This database not supported yet
+        404:
+          description: Provided connectionUrl doesn't not match pattern
+        504:
+          description: Can't ping database. Please check it's availability and creds or try again later.
+        500:
+          description: Error while creating database server specific index for query.
         5XX:
-          description: Unexpected error.
+          description: Something goes wrong
+  /support/formats:
+    get:
+      summary: Get supported Report formats
+      responses:
+        200:
+          description: Enum with supported formats
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/formats'
+  /support/consumers:
+    get:
+      summary: Determines available places where the results should be stored
+      responses:
+        200:
+          description: Enum with supported methods for saving reports
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/consumers'
+  /support/instances:
+    get:
+      summary: Supported DBMS
+      responses:
+        200:
+          description: Enum with DBMS which the program can build indexes
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/instances'

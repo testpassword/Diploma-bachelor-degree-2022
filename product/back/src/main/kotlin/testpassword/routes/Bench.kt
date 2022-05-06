@@ -6,10 +6,9 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import testpassword.models.IndexResult
-import testpassword.models.TestParams
+import testpassword.models.BenchTask
 import testpassword.models.TestResult
 import testpassword.services.*
 import java.io.File
@@ -17,19 +16,19 @@ import java.io.File
 fun Route.actions() =
     route("/bench/") {
         post {
-            val testParams = call.receive<TestParams>()
-            val creds = testParams.creds
+            val benchTask = call.receive<BenchTask>()
+            val creds = benchTask.creds
             call.respond(DBsLock.executeLocking(creds.first) {
                 DBsSupport(creds).let { sup ->
                     sup.checkDbAvailability()
                     CoroutineScope(Job()).launch {
-                        val results = testParams.queries.map {
+                        val results = benchTask.queries.map {
                             val tester = DBsTester(it, sup)
                             val benchmarkingResult = tester.benchmarkQuery()
                             val best = tester.findBest(benchmarkingResult)
                             val origTime = sup.measureQuery { it }
-                            if (testParams.saveBetter && best != null) sup.execute { best.first.createIndexStatement }
-                            val report = Report(it, benchmarkingResult.map { (k, v) -> IndexResult(k.createIndexStatement, origTime, v) }, testParams.format)
+                            if (benchTask.saveBetter && best != null) sup.execute { best.first.createIndexStatement }
+                            val report = Report(it, benchmarkingResult.map { (k, v) -> IndexResult(k.createIndexStatement, origTime, v) }, benchTask.format)
                             val res = TestResult(best!!.first.createIndexStatement, origTime, best.second, best.second - origTime)
                             report to res
                         }
@@ -39,10 +38,10 @@ fun Route.actions() =
                             files.forEach { it.delete() }
                             results.map { it.second }
                         }
-                        if (testParams.consumer == CONSUMER.FS) results.forEach {
-                            if (testParams.consumerParams.isNotEmpty()) it.first.reportsDir = testParams.consumerParams
+                        if (benchTask.consumer == CONSUMER.FS) results.forEach {
+                            if (benchTask.consumerParams.isNotEmpty()) it.first.reportsDir = benchTask.consumerParams
                             it.first.file
-                        } else temporaryWrite { testParams.consumer(testParams.consumerParams, *it) }
+                        } else temporaryWrite { benchTask.consumer(benchTask.consumerParams, *it) }
                     }
                     mapOf("details" to "All validations are successfully passed, test results will be available soon")
                 }

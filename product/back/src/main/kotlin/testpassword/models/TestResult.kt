@@ -10,7 +10,6 @@ import kotlinx.serialization.Serializable
 )
 
 @Serializable class IndexResult {
-
     val indexStatement: String
     val timeTaken: Long
     val diff: Long

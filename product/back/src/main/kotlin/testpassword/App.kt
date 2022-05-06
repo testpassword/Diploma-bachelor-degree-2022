@@ -44,13 +44,13 @@ fun Application.configureExceptionHandlers() =
         exception<Exception> {
             val (status, msg) = when (it) {
                 is DatabaseNotSupportedException -> HttpStatusCode.BadRequest to """
-                    This database not supported yet. Supported: ${INDEX_CREATORS.values().joinToString(", ")}
+                    This database not supported yet. Supported: ${INSTANCES.values().joinToString(", ")}
                     """.trimIndent()
                 is SQLClientInfoException -> HttpStatusCode.NotFound to """
                     Provided connectionUrl doesn't not match pattern: '${DBsSupport.CONNECTION_URL_PATTERN}'
                     """.trimIndent()
                 is ConnectException -> HttpStatusCode.GatewayTimeout to """
-                    Can't ping database. Please check it's availability and creds and try again.
+                    Can't ping database. Please check it's availability and creds or try again later.
                     """.trimIndent()
                 is IndexCreationError -> HttpStatusCode.InternalServerError to """
                     Error while creating database server specifix index for query:
