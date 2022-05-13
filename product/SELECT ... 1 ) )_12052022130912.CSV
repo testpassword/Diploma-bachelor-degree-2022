@@ -1,0 +1,18 @@
+indexStatement,timeTaken,diff
+"CREATE INDEX Trans_idMissions_transportBTREE ON missions_transport USING BTREE(trans_id);",1301375,118500
+"CREATE INDEX Miss_idMissions_empHASH ON missions_emp USING HASH(miss_id);",1353000,66875
+"CREATE INDEX Trans_idTransportHASH ON transport USING HASH(trans_id);",1357084,62791
+"CREATE INDEX Trans_idStatusTransportBTREE ON transport USING BTREE(trans_id, status);",1383541,36334
+"CREATE INDEX Emp_idMiss_idMissions_empBTREE ON missions_emp USING BTREE(emp_id, miss_id);",1388750,31125
+"CREATE INDEX Trans_idMissions_transportHASH ON missions_transport USING HASH(trans_id);",1393875,26000
+"CREATE INDEX Miss_idTrans_idMissions_transportBTREE ON missions_transport USING BTREE(miss_id, trans_id);",1403000,16875
+"CREATE INDEX Miss_idMissions_transportBTREE ON missions_transport USING BTREE(miss_id);",1403083,16792
+"CREATE INDEX StatusTransportHASH ON transport USING HASH(status);",1426792,-6917
+"CREATE INDEX Miss_idMissions_empBTREE ON missions_emp USING BTREE(miss_id);",1452333,-32458
+"CREATE INDEX Miss_idMissions_transportHASH ON missions_transport USING HASH(miss_id);",1457042,-37167
+"CREATE INDEX Trans_idTransportBTREE ON transport USING BTREE(trans_id);",1481667,-61792
+"CREATE INDEX StatusTransportBTREE ON transport USING BTREE(status);",1497583,-77708
+"CREATE INDEX Emp_idMissions_empBTREE ON missions_emp USING BTREE(emp_id);",1550167,-130292
+"CREATE INDEX Emp_idEmployeeBTREE ON employee USING BTREE(emp_id);",1675709,-255834
+"CREATE INDEX Emp_idEmployeeHASH ON employee USING HASH(emp_id);",1682459,-262584
+"CREATE INDEX Emp_idMissions_empHASH ON missions_emp USING HASH(emp_id);",1683000,-263125

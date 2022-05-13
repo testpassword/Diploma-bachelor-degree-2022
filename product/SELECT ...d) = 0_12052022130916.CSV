@@ -1,0 +1,5 @@
+indexStatement,timeTaken,diff
+"CREATE INDEX Base_idEmployeeHASH ON employee USING HASH(base_id);",3704416,13376
+"CREATE INDEX Base_idEmployeeBTREE ON employee USING BTREE(base_id);",3721459,-3667
+"CREATE INDEX Base_idBaseBTREE ON base USING BTREE(base_id);",5174208,-1456416
+"CREATE INDEX Base_idBaseHASH ON base USING HASH(base_id);",9110459,-5392667

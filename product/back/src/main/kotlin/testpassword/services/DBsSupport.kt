@@ -3,6 +3,7 @@ package testpassword.services
 import java.net.ConnectException
 import java.sql.*
 import kotlin.runCatching
+import kotlin.system.measureNanoTime
 import kotlin.system.measureTimeMillis
 
 typealias JDBC_Creds = Triple<String, String, String>
@@ -39,29 +40,31 @@ class DBsSupport(val creds: JDBC_Creds) {
     fun ping(): Boolean = getConnection().use { it.isValid(PING_TIMEOUT_SEC) }
 
     fun execute(queryFunc: () -> String): Boolean =
-        getConnection()
-            .createStatement()
-            .use {
+        getConnection().use {
+            it.createStatement().use {
                 it.execute(queryFunc())
             }
+        }
 
     fun measureQuery(queryFunc: () -> String): Long =
-        getConnection()
-            .createStatement()
-            .use {
-                measureTimeMillis {
+        getConnection().use {
+            it.createStatement().use {
+                measureNanoTime {
                     it.execute(queryFunc())
                 }
             }
+        }
 
     fun getTableColumns(tableName: String): Set<String> =
-        getConnection()
-            .createStatement()
-            .executeQuery("SELECT * FROM $tableName;")
-            .metaData.let { md ->
-                generateSequence(1) { i -> i + 1 }
-                    .take(md.columnCount)
-                    .map { i -> md.getColumnName(i) }
-                    .toSet()
+        getConnection().use {
+            it.createStatement().use {
+                it.executeQuery("SELECT * FROM $tableName;")
+                .metaData.let { md ->
+                    generateSequence(1) { i -> i + 1 }
+                        .take(md.columnCount)
+                        .map { i -> md.getColumnName(i) }
+                        .toSet()
+                }
+            }
         }
 }

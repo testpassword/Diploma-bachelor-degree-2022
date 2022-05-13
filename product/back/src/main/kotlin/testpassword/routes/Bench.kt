@@ -4,7 +4,6 @@ import io.ktor.application.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import testpassword.models.IndexResult
@@ -21,15 +20,26 @@ fun Route.actions() =
             call.respond(DBsLock.executeLocking(creds.first) {
                 DBsSupport(creds).let { sup ->
                     sup.checkDbAvailability()
-                    CoroutineScope(Job()).launch {
+                    launch(Job()) {
                         val results = benchTask.queries.map {
                             val tester = DBsTester(it, sup)
                             val benchmarkingResult = tester.benchmarkQuery()
                             val best = tester.findBest(benchmarkingResult)
                             val origTime = sup.measureQuery { it }
                             if (benchTask.saveBetter && best != null) sup.execute { best.first.createIndexStatement }
-                            val report = Report(it, benchmarkingResult.map { (k, v) -> IndexResult(k.createIndexStatement, origTime, v) }, benchTask.format)
-                            val res = TestResult(best!!.first.createIndexStatement, origTime, best.second, best.second - origTime)
+                            val report = Report(
+                                it,
+                                benchmarkingResult
+                                    .map { (k, v) -> IndexResult(k.createIndexStatement, origTime, v) }
+                                    .sortedBy { i -> i.timeTaken },
+                                benchTask.format
+                            )
+                            val res = TestResult(
+                                best!!.first.createIndexStatement,
+                                origTime,
+                                best.second,
+                                best.second - origTime
+                            )
                             report to res
                         }
                         val temporaryWrite = { act: (f: Array<File>) -> Unit ->

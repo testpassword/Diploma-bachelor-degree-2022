@@ -31,11 +31,13 @@ class DBsTester(private val query: String, private val support: DBsSupport) {
                         .filter { it in support.getTableColumns(t) }
                         .powerset()
                         .filter { it.isNotEmpty() }
-                        .map { IndexQueryStatement(t, it) } // create index query statement for standart sql
-                        .flatMap { support.creator.buildDBSpecificIndexQueries(it) } // create db-specifix sql index query statement
+                        // create index query statement for standart sql
+                        .map { IndexQueryStatement(t, it) }
+                        // create db-specific sql index query statement
+                        .flatMap { support.creator.buildDBSpecificIndexQueries(it) }
             }
         }
 
     infix fun findBest(benchmarkingRes: Map<IndexQueryStatement, Long>): Pair<IndexQueryStatement, Long>? =
-        benchmarkingRes.minByOrNull { it.value }?.toPair()
+        (benchmarkingRes.minByOrNull { it.value } ?: benchmarkingRes.entries.first()).toPair()
 }

@@ -1,0 +1,17 @@
+indexStatement,diff,timeTaken
+CREATE INDEX Is_marriedEmployeeHASH ON employee USING HASH(is_married);,173166,4956042
+"CREATE INDEX Is_marriedHiring_dateEmployeeBTREE ON employee USING BTREE(is_married, hiring_date);",123791,5005417
+CREATE INDEX End_date_and_timeMissionBTREE ON mission USING BTREE(end_date_and_time);,78250,5050958
+"CREATE INDEX Emp_idIs_marriedHiring_dateEmployeeBTREE ON employee USING BTREE(emp_id, is_married, hiring_date);",71375,5057833
+CREATE INDEX RankPositionHASH ON position USING HASH(rank);,45833,5083375
+CREATE INDEX Emp_idMissions_empHASH ON missions_emp USING HASH(emp_id);,7375,5121833
+CREATE INDEX End_date_and_timeMissionHASH ON mission USING HASH(end_date_and_time);,-37834,5167042
+CREATE INDEX Emp_idMissions_empBTREE ON missions_emp USING BTREE(emp_id);,-86209,5215417
+CREATE INDEX Is_marriedEmployeeBTREE ON employee USING BTREE(is_married);,-109667,5238875
+"CREATE INDEX Emp_idHiring_dateEmployeeBTREE ON employee USING BTREE(emp_id, hiring_date);",-173792,5303000
+CREATE INDEX RankPositionBTREE ON position USING BTREE(rank);,-181834,5311042
+CREATE INDEX Hiring_dateEmployeeBTREE ON employee USING BTREE(hiring_date);,-209209,5338417
+CREATE INDEX Hiring_dateEmployeeHASH ON employee USING HASH(hiring_date);,-414625,5543833
+CREATE INDEX Emp_idEmployeeBTREE ON employee USING BTREE(emp_id);,-665376,5794584
+"CREATE INDEX Emp_idIs_marriedEmployeeBTREE ON employee USING BTREE(emp_id, is_married);",-674542,5803750
+CREATE INDEX Emp_idEmployeeHASH ON employee USING HASH(emp_id);,-3633667,8762875

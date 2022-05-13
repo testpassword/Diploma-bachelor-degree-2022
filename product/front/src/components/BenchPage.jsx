@@ -115,53 +115,37 @@ export default () => {
           </Form.Item>
           <Form.List
             name="queries"
-            rules={[
-              {
-                validator: async (_, names) => (!names || names.length < 1) ? Promise.reject(new Error('At least 1 queue')) : undefined,
-              },
-            ]}
+            rules={[{
+              validator: async (_, queries) => (!queries || queries.length < 1) ? Promise.reject(new Error('At least 1 queue')) : undefined,
+              }]}
           >
             {(queries, {add, remove}, {errors}) => (
               <>
                 {queries.map((queue, index) => (
                   <Form.Item
                     {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-                    label={index === 0 ? 'Queries' : ''}
-                    required={false}
-                    key={queue.key}
+                    label={index === 0 ? 'Queries' : ''} required={false} key={queue.key}
                   >
                     <Form.Item
                       {...queue}
                       validateTrigger={['onChange', 'onBlur']}
-                      rules={[
-                        {
+                      rules={[{
                           required: true,
                           whitespace: true,
                           message: "Please input queue or delete this field.",
-                        },
-                      ]}
+                        }]}
                       noStyle
                     >
-                      <CodeMirror
-                        theme="dark"
-                        extensions={[sql()]}
-                      />
+                      <CodeMirror theme="dark" extensions={[sql()]}/>
                     </Form.Item>
-                    {queries.length > 1 ? (
-                      <MinusCircleOutlined
-                        className="dynamic-delete-button"
-                        onClick={() => remove(queue.name)}
-                      />
-                    ) : null}
+                    {queries.length > 1 ?
+                      <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(queue.name)}/>
+                      : null
+                    }
                   </Form.Item>
                 ))}
                 <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => add()}
-                    style={{width: '100%'}}
-                    icon={<PlusOutlined/>}
-                  >
+                  <Button type="dashed" onClick={() => add()} style={{width: '100%'}} icon={<PlusOutlined/>}>
                     Add queue
                   </Button>
                   <Form.ErrorList errors={errors}/>
