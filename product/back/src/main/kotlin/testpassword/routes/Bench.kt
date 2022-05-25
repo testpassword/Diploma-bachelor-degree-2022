@@ -21,7 +21,7 @@ fun Route.actions() =
                 DBsSupport(creds).let { sup ->
                     sup.checkDbAvailability()
                     launch(Job()) {
-                        val results = benchTask.queries.map {
+                        val results = benchTask.queries.toSet().map {
                             val tester = DBsTester(it, sup)
                             val benchmarkingResult = tester.benchmarkQuery()
                             val best = tester.findBest(benchmarkingResult)
