@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="TAB-7ZpW2vkfdUmSYNmT" name="Страница 1">
-        <mxGraphModel dx="1056" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+        <mxGraphModel dx="351" dy="258" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -16,10 +16,10 @@
                 <mxCell id="10" value="&lt;font color=&quot;#2645b3&quot;&gt;КОНВЕРТЕР SQL-ВЫРАЖЕНИЙ&lt;/font&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;strokeColor=#C8414D;strokeWidth=3;" parent="1" vertex="1">
                     <mxGeometry x="210" y="310" width="260" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="11" value="" style="endArrow=open;endFill=1;endSize=12;html=1;entryX=0;entryY=0.51;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" edge="1">
+                <mxCell id="11" value="" style="endArrow=open;endFill=1;endSize=12;html=1;" parent="1" edge="1">
                     <mxGeometry width="160" relative="1" as="geometry">
                         <mxPoint x="348" y="220" as="sourcePoint"/>
-                        <mxPoint x="347.89999999999986" y="310" as="targetPoint"/>
+                        <mxPoint x="348" y="270" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="13" value="&lt;font color=&quot;#2645b3&quot;&gt;СУБД&lt;/font&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;" parent="1" vertex="1">
@@ -40,13 +40,13 @@
                 <mxCell id="17" value="&lt;font color=&quot;#000000&quot; face=&quot;Verdana&quot; style=&quot;font-size: 8px&quot;&gt;fun buildDBSpecificIndexQueries(IndexQueryStatement):&lt;br&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;List&amp;lt;IndexQueryStatement&amp;gt;&lt;br&gt;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#2645B3;" parent="1" vertex="1">
                     <mxGeometry x="217.5" y="327" width="245" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="18" value="&lt;pre&gt;&lt;font face=&quot;Verdana&quot; style=&quot;font-size: 8px&quot;&gt;openapi: 3.0.3&lt;br&gt;info:&lt;br&gt;  title: SQL-OPTIMIZER&lt;br&gt;  version: 1.1.0&lt;br&gt;components:&lt;br&gt;  ...&lt;/font&gt;&lt;/pre&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Verdana;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+                <mxCell id="18" value="&lt;pre&gt;&lt;font face=&quot;Verdana&quot; style=&quot;font-size: 8px&quot;&gt;openapi: 3.0.3&lt;br&gt;info:&lt;br&gt;  title: SQL-OPTIMIZER&lt;br&gt;  version: 1.1.0&lt;br&gt;components:&lt;br&gt;  ...&lt;/font&gt;&lt;/pre&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Verdana;fontSize=8;fontColor=#000000;" parent="1" vertex="1">
                     <mxGeometry x="265" y="152" width="150" height="56" as="geometry"/>
                 </mxCell>
-                <mxCell id="19" value="&lt;pre style=&quot;font-size: 8px&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;&lt;font face=&quot;Verdana&quot; style=&quot;font-size: 8px&quot;&gt;DriverManager.getConnection(creds).&lt;/font&gt;executeQuery(query)&lt;/font&gt;&lt;/pre&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#2645B3;" vertex="1" parent="1">
+                <mxCell id="19" value="&lt;pre style=&quot;font-size: 8px&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;&lt;font face=&quot;Verdana&quot; style=&quot;font-size: 8px&quot;&gt;DriverManager.getConnection(creds).&lt;/font&gt;executeQuery(query)&lt;/font&gt;&lt;/pre&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#2645B3;" parent="1" vertex="1">
                     <mxGeometry x="212.5" y="434" width="245" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="61" value="&lt;pre style=&quot;font-size: 8px&quot;&gt;&lt;font color=&quot;#000000&quot; face=&quot;Verdana&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/pre&gt;&lt;pre style=&quot;font-size: 8px&quot;&gt;&lt;font color=&quot;#000000&quot; face=&quot;Verdana&quot;&gt;0010101010110101010101&lt;/font&gt;&lt;/pre&gt;&lt;pre style=&quot;font-size: 8px&quot;&gt;&lt;font color=&quot;#000000&quot; face=&quot;Verdana&quot;&gt;1001010101011111000101&lt;/font&gt;&lt;/pre&gt;&lt;pre style=&quot;font-size: 8px&quot;&gt;&lt;font color=&quot;#000000&quot; face=&quot;Verdana&quot;&gt;0101011010100011011001&lt;/font&gt;&lt;/pre&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#2645B3;" vertex="1" parent="1">
+                <mxCell id="61" value="&lt;pre style=&quot;font-size: 8px&quot;&gt;&lt;font color=&quot;#000000&quot; face=&quot;Verdana&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/pre&gt;&lt;pre style=&quot;font-size: 8px&quot;&gt;&lt;font color=&quot;#000000&quot; face=&quot;Verdana&quot;&gt;0010101010110101010101&lt;/font&gt;&lt;/pre&gt;&lt;pre style=&quot;font-size: 8px&quot;&gt;&lt;font color=&quot;#000000&quot; face=&quot;Verdana&quot;&gt;1001010101011111000101&lt;/font&gt;&lt;/pre&gt;&lt;pre style=&quot;font-size: 8px&quot;&gt;&lt;font color=&quot;#000000&quot; face=&quot;Verdana&quot;&gt;0101011010100011011001&lt;/font&gt;&lt;/pre&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#2645B3;" parent="1" vertex="1">
                     <mxGeometry x="279.5" y="561" width="135" height="60" as="geometry"/>
                 </mxCell>
             </root>
