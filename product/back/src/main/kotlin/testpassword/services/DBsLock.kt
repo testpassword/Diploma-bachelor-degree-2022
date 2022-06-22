@@ -11,10 +11,11 @@ class DatabaseBusyException: SQLException()
 object DBsLock {
 
     private var client: Jedis? = null
+    private val IS_DEBUG = System.getenv("DEBUG").toBoolean()
 
     operator fun invoke() =
         runCatching {
-            Jedis(parseCredsFromEnv()).also { it.ping() }
+            if (IS_DEBUG) null else Jedis(parseCredsFromEnv()).also { it.ping() }
         }.onSuccess {
             client = it
         }.onFailure {
@@ -41,7 +42,7 @@ object DBsLock {
     operator fun minus(dbUrl: String): Unit = isInit { client!!.set(dbUrl, false.toString()) }
 
     fun <T> executeLocking(dbUrl: String, lockingOps: () -> T): T =
-        if (System.getenv("DEBUG").toBoolean()) lockingOps()
+        if (IS_DEBUG) lockingOps()
         else if (dbUrl !in this) {
             this + dbUrl
             try {
